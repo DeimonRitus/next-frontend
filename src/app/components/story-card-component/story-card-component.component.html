@@ -1,0 +1,40 @@
+<div>
+  <mat-form-field class="search-bar">
+    <input matInput placeholder="Search Stories" type="text" (input)="search($any($event))">
+  </mat-form-field>
+
+  <div class="card-container scroll-card-container">
+    <div>
+
+      @if (isLoading) {
+        <mat-spinner></mat-spinner>
+      } @else {
+        @for (story of data; track story) {
+          <mat-card class="card-container">
+            <mat-card-header>
+              <mat-card-title>{{story.title ? story.title : 'This story has no title'}}</mat-card-title>
+              <mat-card-subtitle><strong>By: </strong>{{story.by}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ story.text ? story.text : 'This Story has no text'}}</p>
+            </mat-card-content>
+            <mat-card-actions>
+              @if (story.url) {
+                <button mat-button (click)="viewPage(story.url)" color="accent">Read more...</button>
+              }
+            </mat-card-actions>
+          </mat-card>
+        }
+      }
+    </div>
+
+    <div id="paginator" class="mat-paginator-container footer">
+      <mat-paginator [length]="length"
+                     [pageSize]="pageSize"
+                     [pageSizeOptions]="pageSizeOptions"
+                     (page)="handlePageEvent($event)"
+                     aria-label="Select page">
+      </mat-paginator>
+    </div>
+  </div>
+</div>
